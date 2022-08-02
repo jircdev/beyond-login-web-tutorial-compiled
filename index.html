@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Web tutorial testing logic</title>
+    <meta charset="utf-8"/>
+
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+
+    <link rel="stylesheet" type="text/css" id="beyond-application-styles" href="/styles.css" media="screen" />
+    <link rel="stylesheet" type="text/css" id="beyond-global-styles" href="/global.css" media="screen" />
+    <link rel="icon" href="data:;base64,=">
+    <script src="/config.js"></script>
+    <script src="/packages/@beyond-js/kernel/vendor/require.min.js"></script>
+    <script>
+    requirejs.config({waitSeconds: 30});
+    const baseDir = window.baseDir = '/';
+    const baseUrl = window.baseUrl = (() => {
+        const {protocol, host, pathname} = location;
+        if (protocol === 'file:') {
+            const path = pathname.split('/');
+            path.pop(); // Remove 'index.html'
+            path.join('/');
+            return `${protocol}//${path.join('/')}`;
+        }
+        else {
+            const baseUrl = baseDir === '/' ? '' : baseDir;
+            return `${protocol}//${host}${baseUrl}`;
+        }
+    })();
+    const paths = {'@beyond/web-tutorial': baseUrl};
+    requirejs.config({baseUrl: '/packages', paths});
+    require(["@beyond-js/widgets/render","@beyond-js/widgets/application","@beyond-js/widgets/layout","@beyond/web-tutorial/start","@beyond-js/local/main"]);
+    
+    </script>
+    
+</head>
+
+<body>
+<div id="beyond-topbar"></div> <!-- top bar for iOS -->
+</body>
+</html>
